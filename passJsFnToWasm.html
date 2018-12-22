@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>WASM Playtime</title>
+  
+  <script>
+
+    const writeDataToNode = (domNodeId) => (data) => {
+      document
+        .getElementById(domNodeId)
+        .innerText = data
+    }
+
+    const jsCallbacks = {
+      env: {
+        writeDataToNode: writeDataToNode("insert_here")
+      }
+    }
+
+    WebAssembly
+      .instantiateStreaming(fetch("jsInteraction.big.wasm"), jsCallbacks)
+      .then(wasmModule => wasmModule.instance.exports.runJsFn())
+
+  </script>
+</head>
+<body>
+  <h1>Playing with Wasm</h1>
+  <h2>WASM example passing JavaScript function to Wasm</h2>
+
+  <p>
+    Wasm inserted the following: 
+    <div id="insert_here"></div>
+  </p>
+
+</body>
+</html>
