@@ -14,7 +14,7 @@
         .innerText = data
     }
 
-    const adderFuncPromise = fetch("utils.gc.wasm")
+    const adderFuncPromise = fetch("utils.big.wasm")
       .then(r => r.arrayBuffer())
       .then(WebAssembly.instantiate)
       .then(wasmModule => num => wasmModule.instance.exports.add_one(num))

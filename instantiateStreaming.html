@@ -15,7 +15,7 @@
     }
 
     const adderFuncPromise = WebAssembly
-      .instantiateStreaming(fetch("utils.gc.wasm"))
+      .instantiateStreaming(fetch("utils.big.wasm"))
       .then(wasmModule => num => wasmModule.instance.exports.add_one(num))
 
     adderFuncPromise
