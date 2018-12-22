@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>WASM Playtime</title>
+  
+  <script>
+
+    const writeDataToNode = (domNodeId) => (data) => {
+      document
+        .getElementById(domNodeId)
+        .innerText = data
+    }
+
+    const adderFuncPromise = fetch("utils.gc.wasm")
+      .then(r => r.arrayBuffer())
+      .then(WebAssembly.instantiate)
+      .then(wasmModule => num => wasmModule.instance.exports.add_one(num))
+
+    adderFuncPromise
+      .then(adder => adder(7))
+      .then(writeDataToNode("add_one_result"))
+
+    adderFuncPromise
+      .then(adder => adder(100))
+      .then(writeDataToNode("add_one_result-2"))
+
+
+  </script>
+</head>
+<body>
+  <h1>Playing with Wasm</h1>
+  <h2>WASM example with Simple loading</h2>
+
+  <p>
+    The result of the computation is: 
+    <div id="add_one_result"></div>
+  </p>
+
+  <p>
+    The second result of the computation is: 
+      <div id="add_one_result-2"></div>
+    </p>
+</body>
+</html>
